@@ -17,8 +17,8 @@ const struct cmd defaults[] = {
     {RULE("aIpm;v")             },  // Drop icmp packets
     {RULE("aIptd22;A")          },  // Allow SSH to server
     {RULE("aIptd3141;A")        },  // Allow SSH to server
-    {RULE("aIc E,R;A")          },  // Allow related traffic in
-    {RULE("aOc E,R;A")          },  // Allow related traffic out
+    {RULE("aIc e,r;A")          },  // Allow related traffic in
+    {RULE("aOc e,r;A")          },  // Allow related traffic out
     {RULE("aIc i;v")            },  // Drop invalid packets
     
     /* FORWARD RULES */
