@@ -306,8 +306,7 @@ void cmds_load(char path[256]) {
         while(run != -1 && fscanf(f, "%c", &c) != EOF) {
             
             if(1<run) {
-                if(c != '$') {
-                    printf("Done: %s\n", cmds.c[cmds.len]);
+                if(c == '$') {
                     cmds.len++;
                 }
                 else {
@@ -322,14 +321,8 @@ void cmds_load(char path[256]) {
                     run=-1;
                 else
                     run++;
-                
-                if(run == -1)
-                    printf("Notechar: %c\n", c);
             }
         }
-        
-        if(run == -1)
-            printf("The notechar was not read\n");
         
         fclose(f);
     }
@@ -358,9 +351,7 @@ void populate() {
 
 int main(int argc, char *argv[]) {
     if(3==argc) {
-        printf("%s %s %s\n", argv[0], argv[1], argv[2]);
         if(argv[1][0] == 'r') {
-            printf("Running\n");
             cmds_load(argv[2]);
             ripr_run();
         }
