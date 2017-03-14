@@ -4,40 +4,38 @@ struct cmd      cmdline;
 struct cmdlist  cmds;
 
 const struct cmd defaults[] = {
+    
+    /* POLICY RULES */
     {RULE("PIv")                },  // Drop all inbound
     {RULE("POv")                },  // Drop all outbound
-    {RULE("P>v")                },  // Drop all forwarding
+    {RULE("P_v")                },  // Drop all forwarding
     
-    {RULE("aIpt!yc n;v")        },  // Drop New Non-SYN Packets
-    {RULE("a>pt!yc n;v")        },  // Drop New Non-SYN Packets
-    {RULE("aIg;v")              },  // Drop fragmented packets
-    {RULE("a>g;v")              },  // Drop fragmented packets
-    
-    {RULE("aIptf V V;v")        },  // Drop xmas packets
-    {RULE("a>ptf V V;v")        },  // Drop xmas packets
-    
-    {RULE("aIptf V N;v")        },  // Drop none packets
-    {RULE("a>ptf V N;v")        },  // Drop none packets
-    
+    /* INPUT OUTPUT RULES */
+    {RULE("aIpm;v")             },  // Drop icmp packets
     {RULE("aIptd22;A")          },  // Allow SSH to server
     {RULE("aIptd3141;A")        },  // Allow SSH to server
+    {RULE("aIc E,R;A")          },  // Allow related traffic in
+    {RULE("aOc E,R;A")          },  // Allow related traffic out
+    {RULE("aIc i;v")            },  // Drop invalid packets
     
-    {RULE("aIpm;v")             },  // Drop icmp packets
+    /* FORWARD RULES */
     {RULE("a>pm;v")             },  // Drop icmp packets
     
-    {RULE("aIc i;v")            },  // Drop invalid packets
+    {RULE("a>pt!yc n;v")        },  // Drop New Non-SYN Packets
+    {RULE("a>g;v")              },  // Drop fragmented packets
+    
+    {RULE("a>ptf V V;v")        },  // Drop xmas packets
+    {RULE("a>ptf V N;v")        },  // Drop none packets
+    
     {RULE("a>c i;v")            },  // Drop invalid packets
     
-    {RULE("a>c r,e;A")          },  // Allow related and established FWD
-    {RULE("aIc r,e;A")          },  // Same with IN
-    
-    {RULE("a>#]@[;A")         },  // FORWARD eth0 -> eth1
-    {RULE("a>#[@];A")         },  // FORWARD eth1 -> eth0
+    {RULE("a>c r,e;A")          },  // Allow EST/REL traffic in
+    {RULE("a<c r,e;A")          },  // Allow EST/REL traffic out
     
     {RULE("a>ptd80c n,e;A")     },  // Allow HTTP
-    {RULE("aOpts80c e;A")       },  // Allow HTTP
+    {RULE("a<pts80c e;A")       },  // Allow HTTP
     {RULE("a>ptd443c n,e;A")    },  // Allow HTTPS
-    {RULE("aOpts443c e;A")      },  // Allow HTTPS
+    {RULE("a<pts443c e;A")      },  // Allow HTTPS
     
     {RULE("\0")                 },  // END RULESET
 };
@@ -116,11 +114,12 @@ void ncui_loop() {
                 case 'r':
                     ripr_run();
                     break;
+                case 'e':
+                    ncui_list_edit();
+                    break;
             }
         }
     }
-    
-    printf("HIHIHI");
 }
 
 void ncui_list_add(struct cmd c) {
@@ -272,6 +271,15 @@ void ncui_end() {
     }
     
     ncui_clear_row(scr.x-1);
+}
+
+void ncui_list_edit() {
+    if(list_scr.s && !cmdline.len) {
+        for(int i=0; i<cmds.c[list_scr.s].len; i++)
+            cmdline.c[cmdline.len++] = cmds.c[list_scr.s].c[i];
+        ncui_print_cmd();
+        scr.m=1;
+    }
 }
 
 void cmds_save(int bck) {

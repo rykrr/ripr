@@ -20,15 +20,20 @@ const struct macro macros[] = {
     {'#',   KEYW("if"),     KEYW("-i"),                     1   },
     {'@',   KEYW("of"),     KEYW("-o"),                     1   },
     
-    {']',   KEYW("eth0"),   KEYW(ETHI),                     1   },
-    {'[',   KEYW("eth1"),   KEYW(ETHO),                     1   },
+    {']',   KEYW(ETHI),     KEYW(ETHI),                     1   },
+    {'[',   KEYW(ETHO),     KEYW(ETHO),                     1   },
+    
+    {'}',   KEYW("W>L"),    KEYW("-i "ETHI" -o "ETHO),      1   },
+    {'{',   KEYW("L>W"),    KEYW("-i "ETHO" -o "ETHI),      1   },
     
     {'I',   KEYW("IN"),     KEYW("INPUT"),                  1   },
     {'O',   KEYW("OUT"),    KEYW("OUTPUT"),                 1   },
     {'L',   KEYW("LOG"),    KEYW("LOG"),                    1   },
     {'A',   KEYW("ACCEPT"), KEYW("ACCEPT"),                 1   },
     {'v',   KEYW("DROP"),   KEYW("DROP"),                   1   },
-    {'>',   KEYW("FWD"),    KEYW("FORWARD"),                1   },
+    {'>',   KEYW("FWDI"),   KEYW(FWD" -i "ETHI" -o "ETHO),  1   },
+    {'<',   KEYW("FWDO"),   KEYW(FWD" -i "ETHO" -o "ETHI),  1   },
+    {'_',   KEYW("FWD"),    KEYW(FWD),                      1   },
     
     {'f',   KEYW("tflag"),  KEYW("--tcp-flags"),            1   },
     

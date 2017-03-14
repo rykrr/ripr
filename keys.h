@@ -11,6 +11,8 @@
 #define ETHO "eth1"
 #endif
 
+#define FWD "FORWARD"
+
 struct macro {
     char c;     // Character to expand
     

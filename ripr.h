@@ -48,6 +48,7 @@ void ncui_list_del(int);
 void ncui_list_add(struct cmd);
 void ncui_list_up();
 void ncui_list_dn();
+void ncui_list_edit();
 
 void ncui_clear_row(int);
 void ncui_print_cmd();
