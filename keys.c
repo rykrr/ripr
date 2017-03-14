@@ -1,3 +1,6 @@
+/* Rapid ipTables Rules     */
+/* Copyright 2017 Ryan Kerr */
+
 #include "keys.h"
 
 const struct macro macros[] = {

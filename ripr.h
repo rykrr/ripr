@@ -1,3 +1,6 @@
+/* Rapid ipTables Rules     */
+/* Copyright 2017 Ryan Kerr */
+
 #ifndef _RIPR_MAIN_
 #define _RIPR_MAIN_
 

@@ -1,3 +1,6 @@
+/* Rapid ipTables Rules     */
+/* Copyright 2017 Ryan Kerr */
+
 #include "ripr.h"
 
 struct cmd      cmdline;
@@ -29,13 +32,20 @@ const struct cmd defaults[] = {
     
     {RULE("a>c i;v")            },  // Drop invalid packets
     
-    {RULE("a>c r,e;A")          },  // Allow EST/REL traffic in
-    {RULE("a<c r,e;A")          },  // Allow EST/REL traffic out
-    
     {RULE("a>ptd80c n,e;A")     },  // Allow HTTP
     {RULE("a<pts80c e;A")       },  // Allow HTTP
+    
     {RULE("a>ptd443c n,e;A")    },  // Allow HTTPS
     {RULE("a<pts443c e;A")      },  // Allow HTTPS
+    
+    {RULE("a>ptd20c n,e;A")     },  // Allow FTP
+    {RULE("a<pts20c e;A")       },  // Allow FTP
+    
+    {RULE("a>ptd993c n,e;A")    },  // Allow IMAP
+    {RULE("a<pts993c e;A")      },  // Allow IMAP
+    
+    {RULE("a>c r,e;A")          },  // Allow EST/REL traffic in
+    {RULE("a<c n,r,e;A")        },  // Allow EST/REL traffic out
     
     {RULE("\0")                 },  // END RULESET
 };
